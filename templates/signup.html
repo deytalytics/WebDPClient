@@ -8,9 +8,9 @@
 <body>
     <div class="container">
         <h1>Signup</h1>
-        <form>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email">
+        <form method="post" action="{{ url_for('signup')}}">
+            <label for="username">Email:</label>
+            <input type="username" id="username" name="username" placeholder="Enter your email">
 
             <br>
             <label for="password">Password:</label>
@@ -18,7 +18,7 @@
 
             <br>
             <label for="password">Confirm Password:</label>
-            <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter the password">
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter your password">
 
             <p>
             <input type="submit" value="Signup">

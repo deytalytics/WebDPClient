@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from cr_sqlite_db import save_user_to_db
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 
@@ -16,12 +16,15 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form['confirm-password']
+
+        print(username, password, confirm_password)
 
         # Hash the password for security
         hashed_password = generate_password_hash(password)
 
         # Save the user in the database
-        users[username] = hashed_password
+        save_user_to_db(username, hashed_password)
 
         return redirect('/login')
 
@@ -30,8 +33,9 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['email']
         password = request.form['password']
+        print(username, password)
 
         # Check if the user exists in the database
         if username in users:
@@ -40,9 +44,10 @@ def login():
                 session['username'] = username
                 return redirect('/dashboard')
 
+        print(username)
         return 'Invalid username or password'
 
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/dashboard')
 def dashboard():
